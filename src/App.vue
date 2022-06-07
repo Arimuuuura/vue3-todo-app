@@ -26,6 +26,9 @@
       </li>
     </ul>
   </div>
+  {{ $store.state.count }}
+  <button @click="increment">+</button>
+  <button @click="addCount">+10</button>
 </template>
 
 <script>
@@ -49,6 +52,12 @@ export default {
     back(index) {
       this.$store.commit('back', {value: index})
     },
+    increment() {
+      this.$store.dispatch('incrementAction')
+    },
+    addCount() {
+      this.$store.dispatch('addCountAction', {value: 10})
+    }
   }
 }
 </script>

@@ -5,12 +5,10 @@ export default createStore({
 	input: '',
 	todos: [],
 	completes: [],
+	count: 0
   },
-  getters: {
-	getInput: () => {
-		return this.input
-	}
-  },
+  getters: {},
+// 同期的
   mutations: {
 	addTodo(state) {
 		if(!state.input) return
@@ -28,8 +26,21 @@ export default createStore({
 		state.todos = [...state.todos, state.completes[payload.value]]
 		state.completes.splice(payload.value, 1)
 	},
+	increment(state) {
+		state.count++
+	},
+	addCount(state, payload) {
+		state.count += payload.value
+	}
   },
+// 非同期
   actions: {
+	incrementAction({ commit }) {
+		commit('increment');
+	},
+	addCountAction({ commit }, payload) {
+		commit('addCount', payload);
+	},
   },
   modules: {
   },
