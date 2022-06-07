@@ -1,16 +1,16 @@
 <template>
   <div class="input">
-    <input placeholder="TODOを入力" v-model="input" />
-    <button v-on:click="add">追加</button>
+    <input placeholder="TODOを入力" v-model="$store.state.input" />
+    <button @click="addTodo">追加</button>
   </div>
   <div class="in-complete">
     <p class="title">未完了のTODO</p>
     <ul>
-      <li v-for="(todo, index) in todos" :key="index">
+      <li v-for="(todo, index) in $store.state.todos" :key="index">
         <div class="list-row">
           <p>{{ todo }}</p>
-          <button v-on:click="complete(index)">完了</button>
-          <button v-on:click="deleteTodo(index)">削除</button>
+          <button @click="complete(index)">完了</button>
+          <button @click="deleteTodo(index)">削除</button>
         </div>
       </li>
     </ul>
@@ -18,7 +18,7 @@
   <div class="complete">
     <p className="title">完了したTODO</p>
     <ul>
-      <li v-for="(complete, index) in completes" :key="index">
+      <li v-for="(complete, index) in $store.state.completes" :key="index">
         <div className="list-row">
           <p>{{ complete }}</p>
           <button v-on:click="back(index)">戻す</button>
@@ -33,31 +33,22 @@
 export default {
   name: 'App',
   data() {
-    return {
-      count: 0,
-      input: '',
-      todos: [],
-      completes: []
-    }
+    return {}
   },
   components: {},
   methods: {
-    add() {
-      if(!this.input) return
-      this.todos = [...this.todos, this.input]
-      this.input = ''
+    addTodo() {
+      this.$store.commit('addTodo')
     },
     complete(index) {
-      this.completes = [...this.completes, this.todos[index]]
-      this.todos.splice(index, 1)
+      this.$store.commit('complete', {value: index})
     },
     deleteTodo(index) {
-      this.todos.splice(index, 1)
+      this.$store.commit('deleteTodo', {value: index})
     },
     back(index) {
-      this.todos = [...this.todos, this.completes[index]]
-      this.completes.splice(index, 1)
-    }
+      this.$store.commit('back', {value: index})
+    },
   }
 }
 </script>
