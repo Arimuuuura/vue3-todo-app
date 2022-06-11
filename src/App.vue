@@ -1,8 +1,9 @@
 <template>
-  <div class="input">
-    <input placeholder="TODOを入力" v-model="$store.state.input" />
+  <!-- <div class="input">
+    <input placeholder="TODOを入力" v-model="input" />
     <button @click="addTodo">追加</button>
-  </div>
+  </div> -->
+  <InputView :input="input" @eventTest1="test1" />
   <div class="in-complete">
     <p class="title">未完了のTODO</p>
     <ul>
@@ -32,17 +33,40 @@
 </template>
 
 <script>
+import InputView from '@/components/InputView.vue'
+import { computed } from "vue";
+import { useStore } from "vuex";
 
 export default {
   name: 'App',
   data() {
     return {}
   },
-  components: {},
+  components: {
+    InputView
+  },
+  computed: {
+    inputText() {
+      return this.$store.getters.getInput
+    }
+  },
+  setup() {
+    const store = useStore();
+    const input = computed(() => store.state.input);
+    const test1 = () => {
+      store.commit('addTodo')
+      console.log('arimura');
+    }
+
+    return {
+      input,
+      test1
+    };
+  },
   methods: {
-    addTodo() {
-      this.$store.commit('addTodo')
-    },
+    // addTodo() {
+    //   this.$store.commit('addTodo')
+    // },
     complete(index) {
       this.$store.commit('complete', {value: index})
     },
