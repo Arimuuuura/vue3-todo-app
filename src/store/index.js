@@ -10,10 +10,19 @@ export default createStore({
   getters: {},
 // 同期的
   mutations: {
-	addTodo(state) {
-		if(!state.input) return
-		state.todos = [...state.todos, state.input]
-		state.input = ''
+	setInput(state, payload) {
+		console.log(payload.value);
+		state.input = payload.value;
+	},
+	test(state, payload) {
+		console.log("Hi arimura", state, payload, state.input);
+		state.input += payload.value
+	},
+	addTodo(state, input) {
+		state.todos.push({
+			todo: input,
+			completed: false,
+		})
 	},
 	complete(state, payload) {
 		state.completes = [...state.completes, state.todos[payload.value]]
@@ -29,8 +38,8 @@ export default createStore({
 	increment(state) {
 		state.count++
 	},
-	addCount(state, payload) {
-		state.count += payload.value
+	addCount(state) {
+		state.count++
 	}
   },
 // 非同期

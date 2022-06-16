@@ -1,15 +1,15 @@
 <template>
-  <!-- <div class="input">
+  <div class="input">
     <input placeholder="TODOを入力" v-model="input" />
     <button @click="addTodo">追加</button>
-  </div> -->
-  <InputView :input="input" @eventTest1="test1" />
+  </div>
+  <InputView v-model="input" @add-todo="addTodo" />
   <div class="in-complete">
     <p class="title">未完了のTODO</p>
     <ul>
       <li v-for="(todo, index) in $store.state.todos" :key="index">
         <div class="list-row">
-          <p>{{ todo }}</p>
+          <p>{{ todo.todo }}</p>
           <button @click="complete(index)">完了</button>
           <button @click="deleteTodo(index)">削除</button>
         </div>
@@ -27,15 +27,13 @@
       </li>
     </ul>
   </div>
-  {{ $store.state.count }}
-  <button @click="increment">+</button>
-  <button @click="addCount">+10</button>
 </template>
 
 <script>
-import InputView from '@/components/InputView.vue'
-import { computed } from "vue";
+import { computed, ref, watch } from "vue";
 import { useStore } from "vuex";
+
+import InputView from '@/components/InputView.vue'
 
 export default {
   name: 'App',
@@ -45,28 +43,32 @@ export default {
   components: {
     InputView
   },
-  computed: {
-    inputText() {
-      return this.$store.getters.getInput
-    }
-  },
   setup() {
     const store = useStore();
-    const input = computed(() => store.state.input);
-    const test1 = () => {
-      store.commit('addTodo')
-      console.log('arimura');
+    const input = ref('')
+    watch(input, () => {
+      console.log(input.value);
+    })
+
+    const compInput = computed(() => {
+      return input
+    })
+
+    console.log(input.value);
+    console.log(compInput);
+
+    const addTodo = () => {
+      store.commit('addTodo', input.value);
+      input.value = '';
     }
 
     return {
       input,
-      test1
+      addTodo,
+      compInput
     };
   },
   methods: {
-    // addTodo() {
-    //   this.$store.commit('addTodo')
-    // },
     complete(index) {
       this.$store.commit('complete', {value: index})
     },
@@ -79,9 +81,9 @@ export default {
     increment() {
       this.$store.dispatch('incrementAction')
     },
-    addCount() {
-      this.$store.dispatch('addCountAction', {value: 10})
-    }
+    // addCount() {
+    //   this.$store.dispatch('addCountAction', {value: 10})
+    // }
   }
 }
 </script>
