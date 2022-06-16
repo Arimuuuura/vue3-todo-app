@@ -1,8 +1,4 @@
 <template>
-  <div class="input">
-    <input placeholder="TODOを入力" v-model="input" />
-    <button @click="addTodo">追加</button>
-  </div>
   <InputView v-model="input" @add-todo="addTodo" />
   <div class="in-complete">
     <p class="title">未完了のTODO</p>
@@ -30,7 +26,7 @@
 </template>
 
 <script>
-import { computed, ref, watch } from "vue";
+import { ref } from "vue";
 import { useStore } from "vuex";
 
 import InputView from '@/components/InputView.vue'
@@ -46,26 +42,15 @@ export default {
   setup() {
     const store = useStore();
     const input = ref('')
-    watch(input, () => {
-      console.log(input.value);
-    })
 
-    const compInput = computed(() => {
-      return input
-    })
-
-    console.log(input.value);
-    console.log(compInput);
-
-    const addTodo = () => {
-      store.commit('addTodo', input.value);
+    const addTodo = (e) => {
+      store.commit('addTodo', e);
       input.value = '';
     }
 
     return {
       input,
       addTodo,
-      compInput
     };
   },
   methods: {
