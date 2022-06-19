@@ -14,19 +14,17 @@ export default createStore({
 		console.log(payload.value);
 		state.input = payload.value;
 	},
-	test(state, payload) {
-		console.log("Hi arimura", state, payload, state.input);
-		state.input += payload.value
-	},
 	addTodo(state, input) {
 		state.todos.push({
 			todo: input,
 			completed: false,
 		})
 	},
-	complete(state, payload) {
+	completeTodo(state, payload) {
 		state.completes = [...state.completes, state.todos[payload.value]]
 		state.todos.splice(payload.value, 1)
+		console.log(state.completes);
+		console.log(state.todos);
 	},
 	deleteTodo(state, payload) {
 		state.todos.splice(payload.value, 1)
@@ -35,22 +33,8 @@ export default createStore({
 		state.todos = [...state.todos, state.completes[payload.value]]
 		state.completes.splice(payload.value, 1)
 	},
-	increment(state) {
-		state.count++
-	},
-	addCount(state) {
-		state.count++
-	}
   },
 // 非同期
-  actions: {
-	incrementAction({ commit }) {
-		commit('increment');
-	},
-	addCountAction({ commit }, payload) {
-		commit('addCount', payload);
-	},
-  },
-  modules: {
-  },
+  actions: {},
+  modules: {},
 })
