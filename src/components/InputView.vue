@@ -13,10 +13,11 @@ export default {
 		input: String,
 	},
 	setup(props, { emit }) {
-		let inputValue = ref(props.input)
+		let inputValue = ref('')
 
 		const addTodo = () => {
-			emit('add-todo', inputValue)
+			emit('add-todo', inputValue.value)
+			inputValue.value = ''
 		}
 
 		return {

@@ -1,5 +1,5 @@
 <template>
-  <InputView v-model="input" @add-todo="addTodo" />
+  <InputView @add-todo="addTodo" />
   <IncompleteView />
   <CompleteView />
 </template>
