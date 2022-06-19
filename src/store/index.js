@@ -2,18 +2,12 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-	input: '',
 	todos: [],
 	completes: [],
-	count: 0
   },
   getters: {},
 // 同期的
   mutations: {
-	setInput(state, payload) {
-		console.log(payload.value);
-		state.input = payload.value;
-	},
 	addTodo(state, input) {
 		state.todos.push({
 			todo: input,

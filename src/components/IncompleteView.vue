@@ -18,9 +18,8 @@ import { useStore } from "vuex";
 
 export default {
 	name: 'IncompleteView',
-	setup(props) {
+	setup() {
 		const store = useStore();
-		console.log(props.getTodos);
 		const completeTodo = (index) => {
 			store.commit('completeTodo', {value: index})
 		}

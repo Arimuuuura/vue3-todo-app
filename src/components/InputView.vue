@@ -9,6 +9,9 @@
 import { ref } from 'vue'
 export default {
 	name: 'InputView',
+	props: {
+		input: String,
+	},
 	setup(props, { emit }) {
 		let inputValue = ref(props.input)
 
