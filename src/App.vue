@@ -1,64 +1,42 @@
 <template>
-  <div class="input">
-    <input placeholder="TODOを入力" v-model="$store.state.input" />
-    <button @click="addTodo">追加</button>
-  </div>
-  <div class="in-complete">
-    <p class="title">未完了のTODO</p>
-    <ul>
-      <li v-for="(todo, index) in $store.state.todos" :key="index">
-        <div class="list-row">
-          <p>{{ todo }}</p>
-          <button @click="complete(index)">完了</button>
-          <button @click="deleteTodo(index)">削除</button>
-        </div>
-      </li>
-    </ul>
-  </div>
-  <div class="complete">
-    <p className="title">完了したTODO</p>
-    <ul>
-      <li v-for="(complete, index) in $store.state.completes" :key="index">
-        <div className="list-row">
-          <p>{{ complete }}</p>
-          <button v-on:click="back(index)">戻す</button>
-        </div>
-      </li>
-    </ul>
-  </div>
-  {{ $store.state.count }}
-  <button @click="increment">+</button>
-  <button @click="addCount">+10</button>
+  <InputView v-model="input" @add-todo="addTodo" />
+  <IncompleteView />
+  <CompleteView />
 </template>
 
 <script>
+import { ref } from "vue";
+import { useStore } from "vuex";
+
+import InputView from '@/components/InputView.vue'
+import IncompleteView from '@/components/IncompleteView.vue'
+import CompleteView from '@/components/CompleteView.vue'
 
 export default {
   name: 'App',
   data() {
     return {}
   },
-  components: {},
-  methods: {
-    addTodo() {
-      this.$store.commit('addTodo')
-    },
-    complete(index) {
-      this.$store.commit('complete', {value: index})
-    },
-    deleteTodo(index) {
-      this.$store.commit('deleteTodo', {value: index})
-    },
-    back(index) {
-      this.$store.commit('back', {value: index})
-    },
-    increment() {
-      this.$store.dispatch('incrementAction')
-    },
-    addCount() {
-      this.$store.dispatch('addCountAction', {value: 10})
+  components: {
+    InputView,
+    IncompleteView,
+    CompleteView
+  },
+  setup() {
+    const store = useStore();
+    const input = ref('')
+
+    const addTodo = (e) => {
+      store.commit('addTodo', e);
+      input.value = '';
     }
-  }
+
+    return {
+      input,
+      addTodo,
+    };
+  },
+  methods: {}
 }
 </script>
 

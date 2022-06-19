@@ -2,22 +2,23 @@ import { createStore } from 'vuex'
 
 export default createStore({
   state: {
-	input: '',
 	todos: [],
 	completes: [],
-	count: 0
   },
   getters: {},
 // 同期的
   mutations: {
-	addTodo(state) {
-		if(!state.input) return
-		state.todos = [...state.todos, state.input]
-		state.input = ''
+	addTodo(state, input) {
+		state.todos.push({
+			todo: input,
+			completed: false,
+		})
 	},
-	complete(state, payload) {
+	completeTodo(state, payload) {
 		state.completes = [...state.completes, state.todos[payload.value]]
 		state.todos.splice(payload.value, 1)
+		console.log(state.completes);
+		console.log(state.todos);
 	},
 	deleteTodo(state, payload) {
 		state.todos.splice(payload.value, 1)
@@ -26,22 +27,8 @@ export default createStore({
 		state.todos = [...state.todos, state.completes[payload.value]]
 		state.completes.splice(payload.value, 1)
 	},
-	increment(state) {
-		state.count++
-	},
-	addCount(state, payload) {
-		state.count += payload.value
-	}
   },
 // 非同期
-  actions: {
-	incrementAction({ commit }) {
-		commit('increment');
-	},
-	addCountAction({ commit }, payload) {
-		commit('addCount', payload);
-	},
-  },
-  modules: {
-  },
+  actions: {},
+  modules: {},
 })
